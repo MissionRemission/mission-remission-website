@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery API Test - Mission Remission</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 { color: #E31837; }
+        .test-result {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #E31837;
+        }
+        .success { border-left-color: #28a745; }
+        .error { border-left-color: #dc3545; background: #fff5f5; }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #E31837;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 Gallery API Diagnostic Test</h1>
+        <p><strong>Testing connection to your Google Drive folder...</strong></p>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Testing API connection...</p>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const API_KEY = 'AIzaSyDrHGEOjkN9gikDRKPSF7UEYXKOFh9RiMA';
+        const FOLDER_ID = '1MuaHw6TFwiAM6mR5SNAUmDpzocvRGMuQ';
+
+        async function testGallery() {
+            const resultsDiv = document.getElementById('results');
+            const loadingDiv = document.getElementById('loading');
+
+            try {
+                // Test 1: Check API key format
+                resultsDiv.innerHTML += `
+                    <div class="test-result success">
+                        <h3>✅ Step 1: API Key Format</h3>
+                        <p>API Key: <code>${API_KEY}</code></p>
+                        <p>Status: Valid format</p>
+                    </div>
+                `;
+
+                // Test 2: Check Folder ID
+                resultsDiv.innerHTML += `
+                    <div class="test-result success">
+                        <h3>✅ Step 2: Folder ID</h3>
+                        <p>Folder ID: <code>${FOLDER_ID}</code></p>
+                        <p>Status: Valid format</p>
+                    </div>
+                `;
+
+                // Test 3: Make API call
+                const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+(mimeType+contains+'image/')&key=${API_KEY}&fields=files(id,name,thumbnailLink,webContentLink,imageMediaMetadata)`;
+
+                resultsDiv.innerHTML += `
+                    <div class="test-result">
+                        <h3>🔄 Step 3: API Request</h3>
+                        <p>Making request to Google Drive API...</p>
+                        <p><small>URL: ${url}</small></p>
+                    </div>
+                `;
+
+                const response = await fetch(url);
+
+                resultsDiv.innerHTML += `
+                    <div class="test-result ${response.ok ? 'success' : 'error'}">
+                        <h3>${response.ok ? '✅' : '❌'} Step 4: API Response</h3>
+                        <p>Status: ${response.status} ${response.statusText}</p>
+                    </div>
+                `;
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    resultsDiv.innerHTML += `
+                        <div class="test-result error">
+                            <h3>❌ Error Details</h3>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                            <h4>Common Solutions:</h4>
+                            <ul>
+                                <li><strong>403 Forbidden:</strong> Google Drive API is not enabled. Go to Google Cloud Console → Enable Google Drive API</li>
+                                <li><strong>404 Not Found:</strong> Folder doesn't exist or isn't shared properly</li>
+                                <li><strong>Invalid API Key:</strong> Check your API key in Google Cloud Console</li>
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    const files = data.files || [];
+
+                    resultsDiv.innerHTML += `
+                        <div class="test-result ${files.length > 0 ? 'success' : 'error'}">
+                            <h3>${files.length > 0 ? '✅' : '⚠️'} Step 5: Images Found</h3>
+                            <p>Found <strong>${files.length}</strong> image(s) in the folder</p>
+                        </div>
+                    `;
+
+                    if (files.length > 0) {
+                        resultsDiv.innerHTML += `
+                            <div class="test-result success">
+                                <h3>📷 Images in Folder:</h3>
+                                <ul>
+                                    ${files.map(f => `<li>${f.name}</li>`).join('')}
+                                </ul>
+                                <pre>${JSON.stringify(files, null, 2)}</pre>
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML += `
+                            <div class="test-result error">
+                                <h3>⚠️ No Images Found</h3>
+                                <p><strong>The API call succeeded, but no images were found in the folder.</strong></p>
+                                <h4>Possible reasons:</h4>
+                                <ul>
+                                    <li>Images were uploaded to a different folder</li>
+                                    <li>Images are in a subfolder (only direct children are shown)</li>
+                                    <li>Files are not image types (jpg, png, gif, etc.)</li>
+                                    <li>Folder ID is incorrect</li>
+                                </ul>
+                                <h4>Steps to fix:</h4>
+                                <ol>
+                                    <li>Open your Google Drive folder: <a href="https://drive.google.com/drive/folders/${FOLDER_ID}" target="_blank">Click here</a></li>
+                                    <li>Verify images are directly in this folder (not in subfolders)</li>
+                                    <li>Check the file types are images (jpg, png, gif, etc.)</li>
+                                    <li>Make sure the folder is shared as "Anyone with the link can view"</li>
+                                </ol>
+                            </div>
+                        `;
+                    }
+                }
+
+                loadingDiv.style.display = 'none';
+
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                resultsDiv.innerHTML += `
+                    <div class="test-result error">
+                        <h3>❌ Connection Error</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p>This usually means a network issue or CORS problem.</p>
+                    </div>
+                `;
+            }
+        }
+
+        testGallery();
+    </script>
+</body>
+</html>

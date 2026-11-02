@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Events - Mission Remission</title>
+    <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">Mission Remission</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="sponsorships.html">Sponsorships</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="updates.html">Updates</a></li>
+                <li><a href="donate.html" class="btn-nav-donate">Donate</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Upcoming Events</h1>
+                <p>Join us at our fundraising events and activities</p>
+            </div>
+        </section>
+
+        <section class="events-section">
+            <div class="container">
+                <div id="loading-message" class="loading-message">
+                    <div class="spinner"></div>
+                    <p>Loading events from Google Calendar...</p>
+                </div>
+
+                <div id="events-list" class="events-list">
+                    <!-- Events will be loaded dynamically from Google Calendar -->
+                </div>
+
+                <div id="no-events" class="no-events" style="display: none;">
+                    <p>No upcoming events at this time. Check back soon!</p>
+                </div>
+
+                <div id="error-message" class="error-message" style="display: none;">
+                    <p>Unable to load events. Please check the Google Calendar configuration.</p>
+                    <p class="error-detail">See setup instructions in events.js</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Mission Remission</h3>
+                    <p>A Student Visionaries of the Year campaign supporting Blood Cancer United</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="sponsorships.html">Sponsorships</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: missionremissionsds@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Mission Remission. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="events.js"></script>
+</body>
+</html>

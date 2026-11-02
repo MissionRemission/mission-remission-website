@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events API Test</title>
+</head>
+<body>
+    <h1>Testing Google Calendar API</h1>
+    <div id="test-results"></div>
+
+    <script>
+        const API_KEY = 'AIzaSyDrHGEOjkN9gikDRKPSF7UEYXKOFh9RiMA';
+        const CALENDAR_ID = '8ff1bbe4d78ba18405d670baca0c3ddb01da5dbbd361ec2aaacd021ccd2c2053@group.calendar.google.com';
+
+        async function testAPI() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<p>Testing API connection...</p>';
+
+            try {
+                const now = new Date().toISOString();
+                const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events?key=${API_KEY}&timeMin=${now}&maxResults=10&singleEvents=true&orderBy=startTime`;
+
+                resultsDiv.innerHTML += `<p>URL: ${url}</p>`;
+
+                const response = await fetch(url);
+                resultsDiv.innerHTML += `<p>Status: ${response.status} ${response.statusText}</p>`;
+
+                const data = await response.json();
+                resultsDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+
+            } catch (error) {
+                resultsDiv.innerHTML += `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+
+        testAPI();
+    </script>
+</body>
+</html>

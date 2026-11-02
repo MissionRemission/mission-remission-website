@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Setup Guide - Mission Remission</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 { color: #E31837; }
+        h2 { color: #333; margin-top: 30px; }
+        .step {
+            background: #fff9f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #E31837;
+            border-radius: 8px;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .important {
+            background: #ffe5e5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        a {
+            color: #E31837;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📅 Google Calendar API Setup Guide</h1>
+        <p><strong>Your events page needs the Google Calendar API enabled.</strong> Follow these steps:</p>
+
+        <div class="step">
+            <h2>Step 1: Go to Google Cloud Console</h2>
+            <p>Visit: <a href="https://console.cloud.google.com/" target="_blank">https://console.cloud.google.com/</a></p>
+            <p>Make sure you're signed in with the Google account that has your calendar.</p>
+        </div>
+
+        <div class="step">
+            <h2>Step 2: Enable Google Calendar API</h2>
+            <ol>
+                <li>In the left menu, click <strong>"APIs & Services"</strong> → <strong>"Library"</strong></li>
+                <li>Search for <strong>"Google Calendar API"</strong></li>
+                <li>Click on it and press <strong>"Enable"</strong></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h2>Step 3: Update API Key Restrictions</h2>
+            <ol>
+                <li>Go to <strong>"APIs & Services"</strong> → <strong>"Credentials"</strong></li>
+                <li>Find your API key: <code>AIzaSyDrHGEOjkN9gikDRKPSF7UEYXKOFh9RiMA</code></li>
+                <li>Click on it to edit</li>
+                <li>Under <strong>"API restrictions"</strong>, make sure BOTH are checked:
+                    <ul>
+                        <li>✅ Google Drive API</li>
+                        <li>✅ Google Calendar API</li>
+                    </ul>
+                </li>
+                <li>Click <strong>"Save"</strong></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h2>Step 4: Make Sure Calendar is Public</h2>
+            <ol>
+                <li>Go to <a href="https://calendar.google.com/" target="_blank">Google Calendar</a></li>
+                <li>Find your calendar in the left sidebar</li>
+                <li>Click the three dots (⋮) next to it</li>
+                <li>Select <strong>"Settings and sharing"</strong></li>
+                <li>Scroll to <strong>"Access permissions"</strong></li>
+                <li>Check ✅ <strong>"Make available to public"</strong></li>
+                <li>Click <strong>"OK"</strong> on the warning dialog</li>
+            </ol>
+        </div>
+
+        <div class="important">
+            <h3>⚠️ Important Notes:</h3>
+            <ul>
+                <li>It may take <strong>5-10 minutes</strong> after enabling the API for it to work</li>
+                <li>Try refreshing the events page after waiting a few minutes</li>
+                <li>Make sure you're using the same Google account for the API key and calendar</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h2>Step 5: Test the Connection</h2>
+            <p>Once you've completed the steps above:</p>
+            <ol>
+                <li>Wait 5-10 minutes</li>
+                <li>Open <code>events.html</code> in your browser</li>
+                <li>You should see your upcoming events!</li>
+            </ol>
+        </div>
+
+        <h2>📝 Your Current Configuration:</h2>
+        <p><strong>API Key:</strong> <code>AIzaSyDrHGEOjkN9gikDRKPSF7UEYXKOFh9RiMA</code></p>
+        <p><strong>Calendar ID:</strong> <code>8ff1bbe4d78ba18405d670baca0c3ddb01da5dbbd361ec2aaacd021ccd2c2053@group.calendar.google.com</code></p>
+
+        <h2>🔍 Troubleshooting:</h2>
+        <p>If it still doesn't work after following all steps:</p>
+        <ul>
+            <li>Double-check the API is enabled in Google Cloud Console</li>
+            <li>Verify the calendar is set to public</li>
+            <li>Try creating a new API key and updating <code>events.js</code></li>
+            <li>Check the browser console (F12) for specific error messages</li>
+        </ul>
+    </div>
+</body>
+</html>
